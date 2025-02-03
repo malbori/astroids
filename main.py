@@ -1,23 +1,34 @@
 import pygame
-from player import Player
-
-# from constants import SCREEN_HEIGHT, SCREEN_WIDTH, ASTEROID_SPAWN_RATE
 from constants import *
+from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 
 def main():
+
+    # initialization code
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     game_clock = pygame.time.Clock()
-    dt = 0
     PLAYER_START_POSITION = (SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
+    # Groups
     updatable_group = pygame.sprite.Group()
     drawable_group = pygame.sprite.Group()
-    # Make all player instances part of these two groups
-    Player.containers = (updatable_group, drawable_group)
-    player = Player(PLAYER_START_POSITION[0], PLAYER_START_POSITION[1])
+    asteroid_group = pygame.sprite.Group()
 
+    # Instantiant classes with groups
+    Player.containers = (updatable_group, drawable_group)
+    Asteroid.containers = (asteroid_group, updatable_group, drawable_group)
+    AsteroidField.containers = updatable_group
+
+    player = Player(PLAYER_START_POSITION[0], PLAYER_START_POSITION[1])
+    asteroid_field = AsteroidField()
+
+    dt = 0
+
+    # Game loop
     while True:
         screen.fill(color="black")
 
